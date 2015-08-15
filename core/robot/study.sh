@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# cd ./question/
+cd $robot_dir
 
 ques="`./getdata "$@" 1`"
 ans="`./getdata "$@" 2`"
