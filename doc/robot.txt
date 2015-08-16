@@ -1,0 +1,51 @@
+关于机器人定制：
+
+所有关于机器人的数据均储存于 'core/',目录切换至 'core/robot/'
+即可看到,可修改此目录内文件和 'core/start.sh' 来实现定制
+
+机器人具体流程
+
+login->client loop   <---------------
+           |                        |
+       on receive message           |
+           |                        |
+           |(message data)          |
+           |                        |
+       robot handle                 |
+           |                        |
+           |(reply message)         |
+           |                        |
+      client thread     ->      send message
+
+
+定制机器人就是修改robot的处理方式
+start.pl
+会将收到的消息类型、消息的发送者、消息内容传接至robot部分，robot部分以
+core/start.sh开始，然后将上层传来的数据向机器人核心部分传送，即core/robot/normal.sh或core/robot/study.sh，normal.sh是用来处理一般消息的，study.sh用来学习新语句
+
+
+处理消息分为大致两种，一种是管理员拥有的数据对比库，一种是普通用户拥有的数据对比库。管理员QQ号请写在core/robot/allow.lst
+管理员的数据库采用模糊语法记录，问题记录的具体形式如下
+关键词1,关键词2,关键词3....
+这会被储存在core/robot/ques.txt
+相应的，每个问题也会有答案，并且答案文件中的行数，对应问题文件中的行数被储存于core/robot/ans.txt
+
+模糊判断会根据ques.txt的记录进行消息的处理，ques.txt内每行都对应一个消息模板，例如小明给我发来消息: hello,my name is xiaoming
+我就可以对关键语句进行提取，消息中含有'hello','name','xiaoming'词汇，根据这些词汇可以判断是小明打招呼，那么就可以这样记录进ques.txt
+hello,name,xiaoming
+那么我就可以向机器人发送消息进行学习
+?hello,name,xiaoming-Hello!XiaoMing!
+
+另外，管理员可以用shell做二次消息处理,把shell写入ans.txt,并且语句头部分要有#这个字符，告诉机器人这是一个shell语句，一般通过QQ消息进行机器人学习，例如：
+?现在,几点,啦-#date
+
+
+相对的，普通用户数据库就很死板，问题库和答案库分别在core/robot/qes_abs.txt,
+core/robot/ans_abs.txt
+机器人会根据普通用户库进行绝对比较，消息和问题库中的数据不能相差一个字符，不然就无法判断
+
+学习指令是相同的
+?你好-你好啊
+
+机器人会先使用普通用户数据比对库，后使用管理员数据比对库，并且是逐行比对，一旦找到答案，就会终止比对，并输出答案
+
