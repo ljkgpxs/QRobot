@@ -1,14 +1,14 @@
 #!/usr/bin/perl
 
-use 5.014;
-use Webqq::Client;
-use Digest::MD5 qw(md5_hex);
+use 5.010;
+use Mojo::Webqq;
+use Mojo::Util qw(md5_sum);
 
-# 键入QQ号和密码
+# 在此键入QQ号和密码
 my $qq = 123456789;
-my $pwd = md5_hex('password');
-my $client = Webqq::Client->new(debug=>0, type=>"smartqq");
-$client->login( qq=> $qq, pwd => $pwd);
+my $pwd = md5_sum('password');
+my $client = Mojo::Webqq->new(ua_debug=>0);
+$client->login(qq => $qq, pwd => $pwd);
 
 sub read_from_file
 {
@@ -30,33 +30,14 @@ sub passmsg
 
 
 $client->load("ShowMsg");
-$client->on_send_message = sub{
-    my ($msg,$is_success,$status) = @_;
-
-    #使用ShowMsg插件打印发送的消息
-    $client->call("ShowMsg",$msg);
-};
-
-#设置接收到消息后的回调函数
-$client->on_receive_message = sub{
-    #$msg = {
-    #    type        => message|group_message 消息类型
-    #    msg_id      => 系统生成的消息id
-    #    from_uin    => 消息发送者uin，回复消息时需要用到
-    #    to_uin      => 消息接受者uin，就是自己的qq
-    #    content     => 消息内容，采用UTF8编码
-    #    msg_time    => 消息的接收时间
-    #    ttl
-    #    msg_class
-    #    allow_plugin
-    #}
-    my $msg = shift;
+$client->on(receive_message=>sub{
+    my ($client,$msg) = @_;
    
     if($msg->type eq 'message')
     {
-	$client->call("ShowMsg", $msg);
-	system("./core/start.sh", $msg->type, $msg->from_qq, $msg->content);
-    	my @reply_content = &passmsg($msg->from_qq);
+	system("./core/start.sh", $msg->type, $msg->sender->qq, $msg->content);
+    	my @reply_content = &passmsg($msg->sender->qq);
+#	say "Debug   " . $msg->sender->qq;
 	if(@reply_content) {
 		my $reply_text;
 		foreach (@reply_content) {
@@ -64,12 +45,12 @@ $client->on_receive_message = sub{
 		}
 		$client->reply_message($msg, $reply_text);
 	} else {
+		say "";
 		say "System message:No Reply";
 	}
     }
-#    $client->call("ShowMsg",$msg);
 #    $client->reply_message($msg,$msg->{content});
-};
+});
 $client->run;
 system("rm /tmp/*.reply");
 
