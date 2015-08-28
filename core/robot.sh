@@ -1,4 +1,6 @@
 #/bin/bash
+# QRobot Project By Ljkgpxs
+
 # $uid is fromer QQ number
 # $context is message content
 

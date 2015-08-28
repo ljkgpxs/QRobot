@@ -1,3 +1,5 @@
+/* QRobot Project By Ljkgpxs */
+
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
