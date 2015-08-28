@@ -4,6 +4,9 @@ use 5.010;
 use Mojo::Webqq;
 use Mojo::Util qw(md5_sum);
 
+my $qq = undef;
+my $pwd = undef;
+
 sub create_account {
 	open(AFILE, ">./account.txt");
 	print "请输入QQ号： ";
@@ -32,9 +35,6 @@ sub passmsg
 	&read_from_file($_[0]);
 }
 
-my $qq = undef;
-my $pwd = undef;
-
 if(-e "./account.txt") {
 	open (AFILE, "<./account.txt");
 	chomp($qq = <AFILE>);
@@ -48,7 +48,7 @@ if(-e "./account.txt") {
 	&create_account;
 }
 
-say "debug  ".$qq."\n".$pwd;
+#say "debug  ".$qq."\n".$pwd;
 my $client = Mojo::Webqq->new(ua_debug=>0);
 $client->login(qq => $qq, pwd => $pwd);
 $client->load("ShowMsg");
