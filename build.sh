@@ -1,4 +1,5 @@
 #!/bin/sh
+# QRobot Project By Ljkgpxs
 
 cd core/
 echo "**Building Robot"
