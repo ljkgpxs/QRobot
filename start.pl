@@ -15,6 +15,7 @@ sub create_account {
 	chomp($pwd = <STDIN>);
 	$pwd = md5_sum($pwd);
 	print AFILE $qq . "\n" . $pwd;
+	close(AFILE);
 }
 
 sub read_from_file
