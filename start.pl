@@ -14,7 +14,7 @@ sub create_account {
 	print "请输入密码： ";
 	chomp($pwd = <STDIN>);
 	$pwd = md5_sum($pwd);
-	print AFILE $qq . "\n" . $pwd;
+	print AFILE $qq . "\n" . $pwd . "\n#请不要修改此文件，登录失败时，可删除此文件重新登录进行键入账号";
 	close(AFILE);
 }
 
@@ -37,12 +37,15 @@ sub passmsg
 }
 
 if(-e "./account.txt") {
+	say "发现历史账号，正在读取账号配置...";
 	open (AFILE, "<./account.txt");
 	chomp($qq = <AFILE>);
 	chomp($pwd = <AFILE>);
 	close(AFILE);
 	if($qq && $pwd) {
+		say "读取成功";
 	} else {
+		say "账号文件为空，请重新登录";
 		&create_account;
 	}
 } else {
