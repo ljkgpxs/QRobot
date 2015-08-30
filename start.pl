@@ -70,7 +70,7 @@ $client->on(receive_message=>sub{
 			say "System message:No Reply";
 		}
 	}
-	$client->reply_message($msg,$msg->{content});
+#	$client->reply_message($msg,$msg->{content});
 });
 
 $client->run;
