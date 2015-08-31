@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 
-use 5.010;
-use Mojo::Webqq;
+use Mojo::Webqq '1.4.3';
 use Mojo::Util qw(md5_sum);
 
 my $qq = undef;
@@ -59,19 +58,28 @@ $client->load("ShowMsg");
 $client->on(receive_message=>sub{
 	my ($client,$msg) = @_;
 	if($msg->type eq 'message') {
-		system("./core/start.sh", $msg->type, $msg->sender->qq, $msg->content);
-		my @reply_content = &passmsg($msg->sender->qq);
-#		say "Debug   " . $msg->sender->qq;
-		if(@reply_content) {
-			my $reply_text;
-			foreach (@reply_content) {
-				$reply_text .= $_;
-			}
-			$client->reply_message($msg, $reply_text);
-		} else {
-			say "";
-			say "System message:No Reply";
-		}
+        #fork a new process to execute shell script
+        #spawn method is added in Mojo::Webqq '1.4.3'
+		$client->spawn(
+            cmd=>["./core/start.sh", $msg->type, $msg->sender->qq, $msg->content],  
+            #exec_timeout => 3, #shall we set a timeout for start.sh?
+            exit_cb=>sub{
+                my($pid,$result) = @_;
+                #after finish start.sh do what you want here
+                my @reply_content = &passmsg($msg->sender->qq);
+                #say "Debug   " . $msg->sender->qq;
+                if(@reply_content) {
+                    my $reply_text;
+                    foreach (@reply_content) {
+                        $reply_text .= $_;
+                    }
+                    $client->reply_message($msg, $reply_text);
+                } else {
+                    say "";
+                    say "System message:No Reply";
+                }        
+            }#end exit_cb
+        );#end spawn
 	}
 #	$client->reply_message($msg,$msg->{content});
 });
