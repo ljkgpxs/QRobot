@@ -4,6 +4,7 @@ use 5.010;
 use Mojo::Webqq;
 use Mojo::Util qw(md5_sum);
 use Term::ReadPassword;
+use Mojo::Webqq::Plugin::PostQRcode;
 
 my $qq = undef;
 # my $pwd = undef;
@@ -14,7 +15,7 @@ sub create_account {
 	chomp($qq = <STDIN>);
 #	chomp($pwd = read_password("请输入密码："));
 #	$pwd = md5_sum($pwd);
-	print AFILE $qq . "\n" . $pwd . "\n#请不要修改此文件，登录失败时，可删除此文件重新登录进行键入账号";
+	print AFILE $qq . "\n#请不要修改此文件，登录失败时，可删除此文件重新登录进行键入账号";
 	close(AFILE);
 }
 
@@ -57,9 +58,20 @@ my $client = Mojo::Webqq->new(
 	ua_debug	=> 0,
 	qq		=> $qq,
 	login_type	=> "qrlogin",
+	delay		=> 1,
 );
 $client->login();
 $client->load("ShowMsg");
+
+#$client->load("PostQRcode",data=>{
+#	smtp	=> '',
+#	port	=> '',
+#	from	=> '',
+#	to	=> '',
+#	user	=> '',
+#	pass	=> '',
+#});
+
 $client->on(receive_message=>sub{
 	my ($client,$msg) = @_;
 	if($msg->type eq 'message') {
