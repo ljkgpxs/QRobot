@@ -6,14 +6,14 @@ use Mojo::Util qw(md5_sum);
 use Term::ReadPassword;
 
 my $qq = undef;
-my $pwd = undef;
+# my $pwd = undef;
 
 sub create_account {
 	open(AFILE, ">./account.txt");
 	print "请输入QQ号： ";
 	chomp($qq = <STDIN>);
-	chomp($pwd = read_password("请输入密码："));
-	$pwd = md5_sum($pwd);
+#	chomp($pwd = read_password("请输入密码："));
+#	$pwd = md5_sum($pwd);
 	print AFILE $qq . "\n" . $pwd . "\n#请不要修改此文件，登录失败时，可删除此文件重新登录进行键入账号";
 	close(AFILE);
 }
@@ -53,8 +53,12 @@ if(-e "./account.txt") {
 }
 
 #say "debug  ".$qq."\n".$pwd;
-my $client = Mojo::Webqq->new(ua_debug=>0);
-$client->login(qq => $qq, pwd => $pwd);
+my $client = Mojo::Webqq->new(
+	ua_debug	=> 0,
+	qq		=> $qq,
+	login_type	=> "qrlogin",
+);
+$client->login();
 $client->load("ShowMsg");
 $client->on(receive_message=>sub{
 	my ($client,$msg) = @_;
