@@ -3,7 +3,6 @@
 use 5.010;
 use Mojo::Webqq;
 use Mojo::Util qw(md5_sum);
-use Term::ReadPassword;
 
 my $qq = undef;
 

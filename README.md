@@ -5,11 +5,6 @@
 
 perl版本最低要求 5.10
 
-模块依赖：
-
-Term::ReadPassword
-
-可以使用cpan进行安装
 
 之后请安装Mojo-Webqq，项目地址
 https://github.com/sjdy521/Mojo-Webqq
