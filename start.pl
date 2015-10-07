@@ -70,23 +70,24 @@ $client->load("ShowMsg");
 $client->on(receive_message=>sub{
 	my ($client,$msg) = @_;
 	if($msg->type eq 'message') {
-#		system("./core/start.sh", $msg->type, $msg->sender->qq, $msg->content);
 		$client->spawn(
 			cmd		=> sub { system('./core/start.sh', $msg->type, $msg->sender->qq, $msg->content)},
 			exec_timeout	=> 5,
+			exit_cb		=> sub{
+				my($pid, $res) = @_;
+				my @reply_content = &passmsg($msg->sender->qq);
+				say @reply_content;
+				if(@reply_content) {
+					my $reply_text;
+					foreach(@reply_content) {
+						$reply_text .= $_;
+					}
+					$msg->reply($reply_text);
+				} else {
+					say "System message: No Reply";
+				}
+			},
 		);
-		my @reply_content = &passmsg($msg->sender->qq);
-#		say "Debug   " . $msg->sender->qq;
-		if(@reply_content) {
-			my $reply_text;
-			foreach (@reply_content) {
-				$reply_text .= $_;
-			}
-			$client->reply_message($msg, $reply_text);
-		} else {
-			say "";
-			say "System message:No Reply";
-		}
 	}
 #	$client->reply_message($msg,$msg->{content});
 });
