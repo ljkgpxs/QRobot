@@ -1,9 +1,7 @@
 #!/usr/bin/perl
 
-use Mojo::Webqq '1.4.3';
+use Mojo::Webqq '1.5.2';
 use Mojo::Util qw(md5_sum);
-use Term::ReadPassword;
-use Mojo::Webqq::Plugin::PostQRcode;
 
 my $qq = undef;
 # my $pwd = undef;
@@ -55,13 +53,11 @@ if(-e "./account.txt") {
 #say "debug  ".$qq."\n".$pwd;
 my $client = Mojo::Webqq->new(
 	ua_debug	=> 0,
-	qq		=> $qq,
+    log_level   => "info",
+	qq		    => $qq,
 	login_type	=> "qrlogin",
-	delay		=> 1,
 );
-$client->login();
 $client->load("ShowMsg");
-
 #$client->load("PostQRcode",data=>{
 #	smtp	=> '',
 #	port	=> '',
@@ -70,7 +66,7 @@ $client->load("ShowMsg");
 #	user	=> '',
 #	pass	=> '',
 #});
-
+$client->login();
 $client->on(receive_message=>sub{
 	my ($client,$msg) = @_;
 	if($msg->type eq 'message') {
@@ -89,7 +85,7 @@ $client->on(receive_message=>sub{
                     foreach (@reply_content) {
                         $reply_text .= $_;
                     }
-                    $client->reply_message($msg, $reply_text);
+                    $msg->reply($reply_text);
                 } else {
                     say "";
                     say "System message:No Reply";
