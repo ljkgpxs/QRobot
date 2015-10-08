@@ -73,9 +73,7 @@ $client->on(receive_message=>sub{
 			cmd		=> sub { system('./core/start.sh', $msg->type, $msg->sender->qq, $msg->content)},
 			exec_timeout	=> 5,
 			exit_cb		=> sub{
-				my($pid, $res) = @_;
 				my @reply_content = &passmsg($msg->sender->qq);
-				say @reply_content;
 				if(@reply_content) {
 					my $reply_text;
 					foreach(@reply_content) {

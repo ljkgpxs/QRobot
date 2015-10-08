@@ -51,6 +51,23 @@ function func
 					emohandle "${context:1}";;
 				"http:*" )
 					:;;
+				'#'* )
+#					echo "get command"
+					if [ `grep $uid $robot_dir/allow.lst | wc -l` == 0 ]; then
+						echo "Permission denied"
+					else
+						echo "${context:2}" >/tmp/robot_shell.sh
+						chmod 777 /tmp/robot_shell.sh
+						/tmp/robot_shell.sh
+						ret=$?
+						rm /tmp/robot_shell.sh
+						if [ $ret == 0 ]; then
+							echo "Successful"
+						else
+							echo "Failed with $ret"
+						fi
+					fi
+					;;
 				* )
 #					echo "Got Normal Message"
 					$robot_dir/normal.sh "${context:1}";;
