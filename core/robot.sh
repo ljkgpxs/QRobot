@@ -88,7 +88,7 @@ function func
 				check_err "$context"
 			else 
 				check_err "$context"
-				if [ $lognum == 5i ]
+				if [ $lognum == 5 ]
 			then
 				echo "主人真的不在啦，妹抖从来都不骗人的说，不介意的话就和我聊天嘛!
 				消息前面不要忘了加@哦！"
