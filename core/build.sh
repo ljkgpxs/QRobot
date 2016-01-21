@@ -18,3 +18,11 @@ echo "	CC same_abs"
 gcc same_abs.c -o same_abs
 chmod 775 same_abs
 
+cd ../robot-tuling
+
+echo "	CC tuling-cli(optional)"
+gcc tuling-cli.c cJSON.c -o test -lcurl -lm
+if [ $? != 0 ]; then
+	echo "Please install libcurl"
+fi
+
