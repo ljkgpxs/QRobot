@@ -1,3 +1,8 @@
+/* QRobot Project By Ljk
+ * 	2016-01-17
+ */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,9 +21,9 @@ void doit(char *text)
 	printf("Error before: [%s]\n", cJSON_GetErrorPtr());
     } else {
 	int code = cJSON_GetObjectItem(json, "code")->valueint;
-	printf("Code is %d\n", code);
+//	printf("Code is %d\n", code);
 	char *text = cJSON_GetObjectItem(json, "text")->valuestring;
-	printf("Text is %s\n", text);
+	printf("@%s\n", text);
     }
 }
 
@@ -65,7 +70,7 @@ int httpget(char *apikey, char *userid, char *text)
     CURLcode res;
     char *post_data = combine_data(apikey, userid, text);
 // Debug
-	printf("Post Data  %s\n", post_data);
+//	printf("Post Data  %s\n", post_data);
 //
     curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
@@ -74,7 +79,7 @@ int httpget(char *apikey, char *userid, char *text)
 	curl_easy_setopt(curl, CURLOPT_POSTFIELDS, post_data);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
 // Debug
-	printf("Starting... GET\n");
+//	printf("Starting... GET\n");
 //
 	res = curl_easy_perform(curl);
 	if (res != CURLE_OK) {
@@ -89,12 +94,12 @@ int httpget(char *apikey, char *userid, char *text)
 
 int main(int argc, char **argv)
 {
-    if (argc < 2) {
+    if (argc < 3) {
 	fprintf(stderr, "%s [Json file path]", argv[0]);
 	return 1;
     }
 
-    httpget(get_apikey(argv[1]), argv[2], argv[3]);
+    httpget(get_apikey(), argv[1], argv[2]);
 //    printf("%s\n", combine_data(get_apikey(), argv[2], argv[3]));
     return 0;
 }

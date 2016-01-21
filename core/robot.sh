@@ -70,7 +70,13 @@ function func
 					;;
 				* )
 #					echo "Got Normal Message"
-					$robot_dir/normal.sh "${context:1}";;
+					if [ ! -s ./robot-tuling/settings.cfg ]; then
+						$robot_dir/normal.sh "${context:1}"
+					else	
+						cd robot-tuling
+						./test $uid ${context:1}
+					fi
+					;;
 			esac
 		fi
 		
