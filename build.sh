@@ -21,7 +21,7 @@ if [ $key ]; then
 	echo $key >core/robot-tuling/settings.cfg
 else
 	echo "No key input...skip"
-	print >core/robot-tuling/sttings.cfg
+	print >core/robot-tuling/settings.cfg
 fi
 
 
