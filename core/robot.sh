@@ -75,6 +75,10 @@ function func
 					else	
 						cd robot-tuling
 						./test $uid ${context:1}
+						if [ $? != 0 ]; then
+							cd ../
+							$robot_dir/normal.sh "${context:1}"
+						fi
 					fi
 					;;
 			esac

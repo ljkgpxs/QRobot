@@ -22,9 +22,26 @@ void doit(char *text)
     } else {
 	int code = cJSON_GetObjectItem(json, "code")->valueint;
 //	printf("Code is %d\n", code);
-	char *text = cJSON_GetObjectItem(json, "text")->valuestring;
-	printf("@%s\n", text);
+	char *text, *url;
+	switch(code) {
+		case 100000:
+			text = cJSON_GetObjectItem(json, "text")->valuestring;
+			printf("@%s\n", text);
+			break;
+		case 200000:
+			text = cJSON_GetObjectItem(json, "text")->valuestring;
+			url = cJSON_GetObjectItem(json, "url")->valuestring;
+			printf("@%s\n%s\n", text, url);
+			break;
+		case 40001:
+		case 40003:
+			fprintf(stderr, "Keys error, changing to old version robot\n");
+			exit(3);
+		case 40004:
+			fprintf(stderr, "Visit Limit\n");
+			exit(4);
     }
+}
 }
 
 
