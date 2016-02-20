@@ -90,5 +90,5 @@ $client->on(receive_message=>sub{
 });
 
 $client->run;
-system("rm /tmp/*.reply");
+system("rm -f /tmp/*.reply >/dev/null 2>/dev/null");
 
