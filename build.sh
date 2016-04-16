@@ -11,7 +11,14 @@ fi
 cd core/
 echo "**Building Robot"
 ./build.sh
+cd ../tools/
+echo "**Building tools.viewqr"
+gcc viewqr.c -o viewqr -lpng -O3 -Wall 
 echo "**Done"
+
+if [ -e "core/robot-tuling/settings.cfg" ]; then
+	exit 0;
+fi
 
 cd ..
 echo "please input tuling robot api key, if you dont have it, input ENTER directly(http://www.tuling123.com)"

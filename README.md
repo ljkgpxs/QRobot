@@ -1,16 +1,32 @@
-编译：
+###截图预览
+![image](https://github.com/ljkgpxs/QRobot/raw/master/screenshot/screenshot.png)
 
-需要gcc编译器
-	$ ./build.sh
+###安装
+安装依赖<br />
+##Ubuntu:
+```
+$ sudo apt-get install libpng12-dev libcurl4-openssl-dev
+```
 
-perl版本最低要求 5.10
-
-
-之后请安装Mojo-Webqq，项目地址
+##Centos:
+```
+# yum install libpng12-devel libcurl-devel
+```
+安装Mojo-Webqq依赖，项目地址
 https://github.com/sjdy521/Mojo-Webqq
+<br />
 
-安装完毕后即可运行
+编译：<br />
+需要gcc编译器
+```
+$ ./build.sh
+```
+
+`perl版本最低要求 5.10`
+###使用
+```
 $ ./start.pl
+```
 根据提示进行账号密码键入
 
 

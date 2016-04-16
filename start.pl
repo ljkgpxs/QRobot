@@ -54,8 +54,16 @@ my $client = Mojo::Webqq->new(
 	qq		=> $qq,
 	login_type	=> "qrlogin",
 );
+$client->on("input_qrcode"=>sub{
+		my ($client, $qrpath) = @_;
+		system('./tools/viewqr', $qrpath),
+});
+
 $client->login();
 $client->load("ShowMsg");
+
+
+
 
 #$client->load("PostQRcode",data=>{
 #	smtp	=> '',
