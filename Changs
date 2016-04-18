@@ -1,3 +1,7 @@
+# version 2.4.2
+1.修改ViewQR工具回调方式
+2.Mojo-Webqq版本最低要求1.7.7
+
 # version 2.4.1
 1.修改以子项目的方式管理viewqr工具，方便管理
 

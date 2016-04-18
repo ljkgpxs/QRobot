@@ -4,6 +4,7 @@ use 5.010;
 use Mojo::Webqq;
 use Mojo::Util qw(md5_sum);
 
+my @required_mojo_webqq_ver = ( '1', '7', '7' );
 my $qq = undef;
 
 sub create_account {
@@ -54,31 +55,38 @@ my $client = Mojo::Webqq->new(
 	qq		=> $qq,
 	login_type	=> "qrlogin",
 );
+
+# 判断Mojo-Webqq版本是否达到要求
+my @version = split(/\./, $client->version);
+if($version[0] lt $required_mojo_webqq_ver[0] || $version[1] lt $required_mojo_webqq_ver[1] || $version[2] lt $required_mojo_webqq_ver[2] ) {
+	say "Mojo-Webqq version v$version[0].$version[1].$version[2]  < $required_mojo_webqq_ver[0].$required_mojo_webqq_ver[1].$required_mojo_webqq_ver[2], Please update your Mojo-Webqq and retry.";
+	exit(1);
+}
+
 $client->on("input_qrcode"=>sub{
 		my ($client, $qrpath) = @_;
-		system('./tools/viewqr', $qrpath),
+#		system('./tools/viewqr', $qrpath),
+		$client->spawn(
+			is_blocking 	=> 1,
+			cmd		=> sub{ system('./tools/viewqr', $qrpath) },
+			exec_timeout	=> 2,
+			stdout_cb	=> sub { 
+				my($pid, $chunk) = @_;
+				$client->print($chunk);
+			},
+			exit_cb		=> sub{},
+		);
 });
 
+# 开始登录
 $client->login();
 $client->load("ShowMsg");
-
-
-
-
-#$client->load("PostQRcode",data=>{
-#	smtp	=> '',
-#	port	=> '',
-#	from	=> '',
-#	to	=> '',
-#	user	=> '',
-#	pass	=> '',
-#});
 
 $client->on(receive_message=>sub{
 	my ($client,$msg) = @_;
 	if($msg->type eq 'message') {
 		$client->spawn(
-			cmd		=> sub { system('./core/start.sh', $msg->type, $msg->sender->qq, $msg->content)},
+			cmd		=> sub { system('./core/start.sh', $msg->type, $msg->sender->qq, $msg->content) },
 			exec_timeout	=> 5,
 			exit_cb		=> sub{
 				my @reply_content = &passmsg($msg->sender->qq);
