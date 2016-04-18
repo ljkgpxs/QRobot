@@ -12,8 +12,9 @@ cd core/
 echo "**Building Robot"
 ./build.sh
 cd ../tools/
-echo "**Building tools.viewqr"
-gcc viewqr.c -o viewqr -lpng -O3 -Wall 
+# echo "**Building tools.viewqr"
+# gcc viewqr.c -o viewqr -lpng -O3 -Wall 
+make
 echo "**Done"
 
 if [ -e "core/robot-tuling/settings.cfg" ]; then
