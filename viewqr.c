@@ -15,11 +15,10 @@ int image_x,image_y,depth,tempi, x, y;
 
 int check_image(int ix,int iy,int id)
 {
-if ((ix>ogr_x) || (iy>ogr_y) || (id>32) || (ix<=0) || (iy<=0) || (id<=0)) {
-
-    return 3;
-
-}	ix++;
+	if ((ix>ogr_x) || (iy>ogr_y) || (id>32) || (ix<=0) || (iy<=0) || (id<=0)) {
+	    return 3;
+	}	
+	ix++;
 	iy++;
 	if (ix*iy<256) ix=256;
 	tabr=(unsigned char*)malloc(ix*iy);
@@ -35,7 +34,7 @@ if ((ix>ogr_x) || (iy>ogr_y) || (id>32) || (ix<=0) || (iy<=0) || (id<=0)) {
 	tab2b=(unsigned char*)malloc(ix*iy);
 	if (!tab2b) fprintf(stderr,"Malloc error (tab2b)\n");
 
-return 0;
+	return 0;
 }
 
 
@@ -116,7 +115,7 @@ int main(int argc, char **argv)
 		printf("Usage: viewqr [ PNG QR file path ]\n");
 		return 0;
 	}
-		// 获取png图片原数据
+	// 获取png图片原数据
 	if(!(res = read_png(argv[1]))) {
 		fprintf(stderr, "Read png file failed(%d)\n", res);
 		return 1;
