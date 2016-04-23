@@ -68,7 +68,7 @@ $client->on("input_qrcode"=>sub{
 #		system('./tools/viewqr', $qrpath),
 		$client->spawn(
 			is_blocking 	=> 1,
-			cmd		=> sub{ system('./tools/viewqr', $qrpath) },
+			cmd		=> sub{ system('./tools/viewqr', '-png', $qrpath) },
 			exec_timeout	=> 2,
 			stdout_cb	=> sub { 
 				my($pid, $chunk) = @_;
