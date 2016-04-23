@@ -1,3 +1,7 @@
+# version 2.4.3
+1.修复build.sh重复询问API的bug
+2.二维码输出有问题，故修改$client->print()为print
+
 # version 2.4.2
 1.修改ViewQR工具回调方式
 2.Mojo-Webqq版本最低要求1.7.7

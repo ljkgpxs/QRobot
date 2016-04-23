@@ -4,7 +4,7 @@ use 5.010;
 use Mojo::Webqq;
 use Mojo::Util qw(md5_sum);
 
-my @required_mojo_webqq_ver = ( '1', '7', '7' );
+my @required_mojo_webqq_ver = ( '1', '7', '8' );
 my $qq = undef;
 
 sub create_account {
@@ -72,7 +72,7 @@ $client->on("input_qrcode"=>sub{
 			exec_timeout	=> 2,
 			stdout_cb	=> sub { 
 				my($pid, $chunk) = @_;
-				$client->print($chunk);
+				print $chunk;
 			},
 			exit_cb		=> sub{},
 		);
