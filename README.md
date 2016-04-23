@@ -5,12 +5,12 @@
 安装依赖<br />
 ##Ubuntu:
 ```
-$ sudo apt-get install libpng12-dev libcurl4-openssl-dev
+$ sudo apt-get install libpng12-dev libcurl4-openssl-dev libjpeg-dev
 ```
 
 ##Centos:
 ```
-# yum install libpng12-devel libcurl-devel
+# yum install libpng12-devel libcurl-devel libjpeg-devel
 ```
 安装Mojo-Webqq依赖，项目地址: [Mojo-Webqq](https://github.com/sjdy521/Mojo-Webqq)
 <br />
