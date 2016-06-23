@@ -58,8 +58,15 @@ my $client = Mojo::Webqq->new(
 
 # 判断Mojo-Webqq版本是否达到要求
 my @version = split(/\./, $client->version);
-if($version[0] lt $required_mojo_webqq_ver[0] || $version[1] lt $required_mojo_webqq_ver[1] || $version[2] lt $required_mojo_webqq_ver[2] ) {
-	say "Mojo-Webqq version v$version[0].$version[1].$version[2]  < $required_mojo_webqq_ver[0].$required_mojo_webqq_ver[1].$required_mojo_webqq_ver[2], Please update your Mojo-Webqq and retry.";
+my $i = 0;
+while($version[$i] - $required_mojo_webqq_ver[$i] == 0) {
+	$i++;
+	if($i == 3) {
+		last;
+	}
+}
+if($i != 3 && $version[$i] - $required_mojo_webqq_ver[$i] < 0) {
+	say "Your Mojo-Webqq version v$version[0].$version[1].$version[2] < v$required_mojo_webqq_ver[0].$required_mojo_webqq_ver[1].$required_mojo_webqq_ver[2], Please update your Mojo-Webqq and retry.";
 	exit(1);
 }
 
