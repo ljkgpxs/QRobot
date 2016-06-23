@@ -1,3 +1,6 @@
+#version 2.4.4
+1.修复版本判断的bug
+
 # version 2.4.3
 1.修复build.sh重复询问API的bug
 2.二维码输出有问题，故修改$client->print()为print
