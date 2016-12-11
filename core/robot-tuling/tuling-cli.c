@@ -81,7 +81,8 @@ char *combine_data(char *str1, char *str2, char *str3)
     return post_data;
 }
 
-int httpget(char *apikey, char *userid, char *text)
+// 图灵新API要求POST方式
+int httpost(char *apikey, char *userid, char *text)
 {
     CURL *curl;
     CURLcode res;
@@ -116,7 +117,7 @@ int main(int argc, char **argv)
 	return 1;
     }
 
-    httpget(get_apikey(), argv[1], argv[2]);
+    httpost(get_apikey(), argv[1], argv[2]);
 //    printf("%s\n", combine_data(get_apikey(), argv[2], argv[3]));
     return 0;
 }

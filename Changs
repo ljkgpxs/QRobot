@@ -1,4 +1,7 @@
-#version 2.4.4
+# version 2.4.5
+1.更改部分函数名
+
+# version 2.4.4
 1.修复版本判断的bug
 
 # version 2.4.3
