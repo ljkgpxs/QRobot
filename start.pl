@@ -5,49 +5,24 @@ use Mojo::Webqq;
 use Mojo::Util qw(md5_sum);
 
 my @required_mojo_webqq_ver = ( '1', '7', '9' );
-#my $qq = undef;
 
-#sub create_account {
-#	open(AFILE, ">./account.txt");
-#	print "请输入QQ号： ";
-#	chomp($qq = <STDIN>);
-#	print AFILE $qq . "\n#请不要修改此文件，登录失败时，可删除此文件重新登录进行键入账号";
-#	close(AFILE);
-#}
-
-#sub read_from_file
-#{
-#	my $to_file = '/tmp/' . $_[0] . '.reply';
-#	if(open(FILE, "<$to_file")) {
-#		my @content = <FILE>;
-#		close(FILE);
-#		@content;
-#	}
-#	else {
-#		return 0;
-#	}
-#}
+sub read_from_file
+{
+	my $to_file = '/tmp/' . $_[0] . '.reply';
+	if(open(FILE, "<$to_file")) {
+		my @content = <FILE>;
+		close(FILE);
+		@content;
+	}
+	else {
+		return 0;
+	}
+}
 
 sub passmsg
 {
 	&read_from_file($_[0]);
 }
-
-#if(-e "./account.txt") {
-#	say "发现历史账号，正在读取账号配置...";
-#	open (AFILE, "<./account.txt");
-#	chomp($qq = <AFILE>);
-#	chomp($pwd = <AFILE>);
-#	close(AFILE);
-#	if($qq && $pwd) {
-#		say "读取成功";
-#	} else {
-#		say "账号文件为空，请重新登录";
-#		&create_account;
-#	}
-#} else {
-#	&create_account;
-#}
 
 #say "debug  ".$qq."\n".$pwd;
 my $client = Mojo::Webqq->new(

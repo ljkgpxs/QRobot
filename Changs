@@ -1,3 +1,6 @@
+# Version 2.5.1
+1.修复不回复消息的Bug
+
 # version 2.5.0
 1.去除QQ号输入，自动识别QQ号
 2.Mojo-Webqq版本最低要求1.7.9
