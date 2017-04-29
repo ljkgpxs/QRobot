@@ -1,14 +1,14 @@
-###截图预览
+### 截图预览
 ![image](https://github.com/ljkgpxs/QRobot/raw/master/screenshot/screenshot.png)
 
-###安装
+### 安装
 安装依赖<br />
-##Ubuntu:
+## Ubuntu:
 ```
 $ sudo apt-get install libpng12-dev libcurl4-openssl-dev libjpeg-dev
 ```
 
-##Centos:
+## Centos:
 ```
 # yum install libpng12-devel libcurl-devel libjpeg-devel
 ```
@@ -22,7 +22,7 @@ $ ./build.sh
 ```
 
 `perl版本最低要求 5.10`
-###使用
+### 使用
 ```
 $ ./start.pl
 ```
